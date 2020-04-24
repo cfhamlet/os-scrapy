@@ -1,8 +1,9 @@
-from scrapy.commands.startproject import Command as ScrapyCommand
-from cookiecutter.main import cookiecutter
+from os.path import abspath, exists, join
+
 import os_scrapy_cookiecutter
+from cookiecutter.main import cookiecutter
+from scrapy.commands.startproject import Command as ScrapyCommand
 from scrapy.exceptions import UsageError
-from os.path import join, exists, abspath
 
 
 class Command(ScrapyCommand):
