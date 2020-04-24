@@ -21,7 +21,7 @@ setup(
     package_dir={"": "src"},
     include_package_data=True,
     license="MIT License",
-    description="Ozzy 's Scrapy",
+    description="Ozzy's Scrapy",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     author="Ozzy",
