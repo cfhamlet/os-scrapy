@@ -10,7 +10,6 @@ from scrapy.cmdline import (
     _pop_command_name,
     _run_print_help,
 )
-from scrapy.settings.deprecated import check_deprecated_settings
 from scrapy.utils.project import get_project_settings, inside_project
 
 import os_scrapy
@@ -109,7 +108,6 @@ def _execute(argv=None, settings=None):
             pass
         else:
             settings["EDITOR"] = editor
-    check_deprecated_settings(settings)
 
     inproject = inside_project()
     cmds = _get_commands_dict(settings, inproject)
