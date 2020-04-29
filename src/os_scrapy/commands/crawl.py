@@ -20,18 +20,10 @@ def load_crawler_class(class_path):
 DEFAULT_CRAWLER_CLASS = f"{Crawler.__module__}.{Crawler.__name__}"
 
 REACTORS = {
-    "twisted": lambda settings: settings.set("TWISTED_REACTOR", None, "command"),
-    "poll": lambda settings: settings.set(
-        "TWISTED_REACTOR", "twisted.internet.pollreactor.PollReactor", "command"
-    ),
-    "select": lambda settings: settings.set(
-        "TWISTED_REACTOR", "twisted.internet.selectreactor.SelectReactor", "command"
-    ),
-    "asyncio": lambda settings: settings.set(
-        "TWISTED_REACTOR",
-        "twisted.internet.asyncioreactor.AsyncioSelectorReactor",
-        "command",
-    ),
+    "twisted": None,
+    "poll": "twisted.internet.pollreactor.PollReactor",
+    "select": "twisted.internet.selectreactor.SelectReactor",
+    "asyncio": "twisted.internet.asyncioreactor.AsyncioSelectorReactor",
 }
 
 
@@ -64,7 +56,7 @@ class Command(ScrapyCommand):
         if opts.crawler_class:
             self.settings.set("CRAWLER_CLASS", opts.crawler_class, "cmdline")
         if opts.reactor:
-            REACTORS[opts.reactor](self.settings)
+            self.settings.set("TWISTED_REACTOR", REACTORS[opts.reactor], "cmdline")
 
     def _create_crawler(self, spname):
         c = self.settings.get("CRAWLER_CLASS")
