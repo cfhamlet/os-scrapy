@@ -19,6 +19,21 @@ def load_crawler_class(class_path):
 
 DEFAULT_CRAWLER_CLASS = f"{Crawler.__module__}.{Crawler.__name__}"
 
+REACTORS = {
+    "twisted": lambda settings: settings.set("TWISTED_REACTOR", None, "command"),
+    "poll": lambda settings: settings.set(
+        "TWISTED_REACTOR", "twisted.internet.pollreactor.PollReactor", "command"
+    ),
+    "select": lambda settings: settings.set(
+        "TWISTED_REACTOR", "twisted.internet.selectreactor.SelectReactor", "command"
+    ),
+    "asyncio": lambda settings: settings.set(
+        "TWISTED_REACTOR",
+        "twisted.internet.asyncioreactor.AsyncioSelectorReactor",
+        "command",
+    ),
+}
+
 
 class Command(ScrapyCommand):
     default_settings = {
@@ -31,13 +46,25 @@ class Command(ScrapyCommand):
             "-c",
             "--crawler-class",
             metavar="CRAWLER_CLASS",
-            help=f"set crawler class. default {DEFAULT_CRAWLER_CLASS}",
+            help=f"set crawler class (default: {self.settings['CRAWLER_CLASS']})",
+        )
+        reactor = self.settings.get("TWISTED_REACTOR")
+        reactor_choices = list(REACTORS.keys())
+        parser.add_option(
+            "-r",
+            "--reactor",
+            metavar="REACTOR",
+            type="choice",
+            choices=reactor_choices,
+            help=f"reactor type (default: {reactor if reactor else 'twisted'}). choices: {reactor_choices}",
         )
 
     def process_options(self, args, opts):
         super(Command, self).process_options(args, opts)
         if opts.crawler_class:
             self.settings.set("CRAWLER_CLASS", opts.crawler_class, "cmdline")
+        if opts.reactor:
+            REACTORS[opts.reactor](self.settings)
 
     def _create_crawler(self, spname):
         c = self.settings.get("CRAWLER_CLASS")
