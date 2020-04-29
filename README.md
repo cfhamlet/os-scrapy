@@ -31,12 +31,34 @@ os-scrapy -h
 
 ### CRAWLER_CLASS
 
-os-scrapy support config ``CRAWLER_CLASS`` replace the default ``scrapy.crawler.Crawler``. It can be configured in ``settings.py`` file or ``os-scrapy crawl -c <your_crawler_class> <spider_name>``
+os-scrapy support config ``CRAWLER_CLASS`` replace the default ``scrapy.crawler.Crawler``
+
+It can be configured in ``settings.py`` file or command line
 
 
-## Enhanced ``startproject``
+```
+os-scrapy crawl -c <your_crawler_class> <spider_name>
+```
 
-Thanks to [os-scrapy-cookiecutter](https://github.com/cfhamlet/os-scrapy-cookiecutter) a ``-p`` option can be used ``os-scrapy startproject -p <project_name>``, which indicate create project as well as python package. 
+
+### Enhanced ``startproject``
+
+Thanks to [os-scrapy-cookiecutter](https://github.com/cfhamlet/os-scrapy-cookiecutter),  ``-p`` option can be used to create project as well as python package
+
+
+```
+os-scrapy startproject -p <project_name> [project_dir]
+```
+
+### Set ``TWISTED_REACTOR`` on command line
+
+
+``-r`` option can be used to set ``TWISTED_REACTOR``
+
+
+```
+os-scrapy crawl -r asyncio <spider_name>
+```
 
 
 ## Unit Tests
@@ -48,3 +70,4 @@ tox
 ## License
 
 MIT licensed.
+
