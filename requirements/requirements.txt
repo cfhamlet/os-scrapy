@@ -1,1 +1,1 @@
-os-scrapy-cookiecutter>=0.0.11
+os-scrapy-cookiecutter>=0.0.12
