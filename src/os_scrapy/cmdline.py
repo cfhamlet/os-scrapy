@@ -13,7 +13,7 @@ from scrapy.cmdline import (
 from scrapy.utils.project import get_project_settings, inside_project
 
 import os_scrapy
-from scrapy.crawler import CrawlerProcess
+from .patch import CrawlerProcess
 from os_scrapy.settings import default_settings
 
 
